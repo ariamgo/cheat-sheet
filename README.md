@@ -15,6 +15,7 @@
 | cp source dest/ | Copy file/folder |
 | mv old new | Move or rename file/folder |
 | touch file.txt | Create empty file |
+
 ## 📄 File Viewing & Editing
 | Command | Description |
 | --- | --- |
@@ -22,6 +23,7 @@
 | less file.txt | Scrollable view of file |
 | nano file.txt | Edit file in nano editor |
 | code . | Open folder in VS Code (if installed) |
+
 ## 🔍 Search & Navigation
 | Command | Description |
 | --- | --- |
@@ -30,6 +32,7 @@
 | grep -r "text" folder/ | Recursive search in folder |
 | pwd | Show current directory |
 | history | View command history |
+
 ## 🧰 System Utilities
 | Command | Description |
 | --- | --- |
@@ -38,6 +41,7 @@
 | free -h | Show memory usage |
 | top / htop | Process monitor (install `htop`) |
 | uptime | System uptime |
+
 ## 📦 Package Management (APT)
 | Command | Description |
 | --- | --- |
@@ -45,6 +49,7 @@
 | sudo apt upgrade | Upgrade installed packages |
 | sudo apt install pkgname | Install package |
 | sudo apt remove pkgname | Remove package |
+
 ## 🐍 Python & pyenv
 | Command | Description |
 | --- | --- |
@@ -61,6 +66,7 @@
 | poetry add <package> | Add dependency |
 | Poetry install | Install all libraries in toml |
 | poetry shell | Activate project virtual environment |
+
 ## 🔐 SSH & Remote Access
 | Command | Description |
 | --- | --- |
@@ -70,6 +76,23 @@
 | cat ~/.ssh/id_ed25519.pub | Show public key to add to GitHub/remote |
 | scp file user@host:/remote/path | Copy file to remote server |
 | scp user@host:/remote/file ./local/ | Copy file from remote server |
+
+## 📡 FTP & File Transfer
+
+| Command | Description |
+|--------|-------------|
+| ftp host | Connect to an FTP server |
+| sftp user@host | Connect securely via SFTP |
+| scp file user@host:/path | Copy file to remote server |
+| scp user@host:/file ./ | Copy file from remote server |
+| rsync -avz file user@host:/path | Sync file/directory over SSH |
+| rsync -avz user@host:/path ./ | Download file/directory via rsync |
+| mput *.txt | Upload multiple files in FTP |
+| mget *.txt | Download multiple files in FTP |
+| put file.txt | Upload file in FTP |
+| get file.txt | Download file in FTP |
+| bye | Exit FTP session |
+
 ## 🧠 Shortcuts
 | Command | Description |
 | --- | --- |
@@ -77,9 +100,10 @@
 | Ctrl + D | Exit terminal or virtual env |
 | Ctrl + L | Clear terminal screen |
 | ↑ / ↓ | Navigate command history |
-| Tab | Autocomplete files or commands |
+| Tab | Autocomplete files or commands (use this like you life depends on it!)|
 | !! | Repeat last command |
 | Ctrl+ | Move by word instead of character |
+
 ## 🌿 Git Essentials
 | Command | Description |
 | --- | --- |

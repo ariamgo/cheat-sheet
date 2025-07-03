@@ -62,7 +62,7 @@
 | poetry init | Create new Poetry project |
 | poetry env use $(pyenv which python) | Link Poetry to pyenv Python |
 | poetry env list | Lists all exiting environments |
-| Poetry env remove <env> | Removes poetry environment |
+| poetry env remove <env> | Removes poetry environment |
 | poetry add <package> | Add dependency |
 | poetry install | Install all libraries in toml |
 | poetry shell | Activate project virtual environment |
@@ -112,6 +112,11 @@
 | git status | Check status of working directory |
 | git add <file> | Stage changes for commit |
 | git add . | Stage all changes |
+| git diff | Shows unstaged changes |
+| git diff --staged | Shows staged changes |
+| git diff HEAD | Shows changes since last commit |
+| git diff commit1 commit2 | Shows changes between commits |
+| git diff branch1 branch2 | Shows changes between branches |
 | git commit -m 'msg' | Commit staged changes with message |
 | git commit --amend | Edit and replace the most recent commit. |
 | git log | View commit history |
@@ -270,3 +275,73 @@ def example_function(param1, param2):
 - **Notes**: Additional information about the function, which may include implementation details.
 - **Examples**: Usage examples with the expected output, helpful for understanding function behavior.
 
+# 📄 Generating Documentation
+ 
+ Assuming you already have numpy docstrings in your code.
+
+1. Add necessary packages
+```bash
+poetry add --group docs numpydoc sphinx sphinx-rtd-theme sphinx-math-dollar myst-parser
+```
+
+- numpydoc: Parses NumPy-style docstrings for Sphinx.
+- sphinx: Turns reStructuredText or Markdown + docstrings into HTML, LaTeX, PDF, etc.
+- sphinx-math-dollar: Allows you to write math equations with LaTeX dollar signs (`$...$` for inline, `$$...$$` for block).
+- sphinx-rtd-theme: The [ReadTheDocs theme](https://readthedocs.io/)
+- myst-parser: Enables writing docs in Markdown `.md` instead of `.rst`
+
+2. Set up sphinx in the docs folder of your repo
+```bash
+poetry run sphinx-quickstart docs
+```
+Follow prompts on the terminal.
+
+3. Configure conf.py
+For example
+```
+# -- General configuration ---------------------------------------------------
+
+extensions = [
+    "sphinx.ext.autosummary",
+    "sphinx.ext.autodoc",
+    "numpydoc",
+    "sphinx_math_dollar",
+    "sphinx.ext.mathjax",
+    "sphinx_rtd_theme",
+    "myst_parser",  # enables Markdown support via MyST
+]
+
+templates_path = ["_templates"]
+exclude_patterns = []
+
+autosummary_generate = True
+numpydoc_class_members_toctree = False
+
+# -- Options for HTML output -------------------------------------------------
+
+html_theme = "sphinx_rtd_theme"
+
+# -- Options for napoleon extension ------------------------------------------
+napoleon_google_docstring = False
+napoleon_numpy_docstring = True
+```
+
+4. Autogenerate `.rst` files for your code
+```bash
+sphinx-apidoc -o docs/source your_module
+```
+
+5. Include modules into `index.rst`
+Include something like:
+```rst
+.. toctree::
+   :maxdepth: 2
+   :caption: API Reference
+
+   your_module # don't forget the indent
+```
+
+6. 📚 Build your documentation
+```bash
+sphinx-build -b html docs/source docs/build
+```

@@ -1,5 +1,22 @@
 # Ubuntu + Python + Git Terminal Cheat Sheet (DAMSL Edition)
 
+
+## 📺 Table of Contents
+- [📁 File & Directory Management](#-file--directory-management)
+- [📄 File Viewing & Editing](#-file-viewing--editing)
+- [🔍 Search & Navigation](#-search--navigation)
+- [🧰 System Utilities](#-system-utilities)
+- [📦 Package Management (APT)](#-package-management-apt)
+- [🐍 Python & pyenv](#-python--pyenv)
+- [🔐 SSH & Remote Access](#-ssh--remote-access)
+- [📡 FTP & File Transfer](#-ftp--file-transfer)
+- [🧠 Shortcuts](#-shortcuts)
+- [🌿 Git Essentials](#-git-essentials)
+- [🧹 Pre-commits](#-pre-commits)
+- [📝 NumPy Docstrings](#-numpy-docstrings)
+- [📄 Generating Documentation](#-generating-documentation)
+
+
 ## 📁 File & Directory Management
 | Command | Description |
 | --- | --- |

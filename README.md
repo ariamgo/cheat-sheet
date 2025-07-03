@@ -125,6 +125,7 @@
 | Command | Description |
 | --- | --- |
 | git init | Initialize a new Git repository |
+| git config --global user.name/email | Set global Git username/email |
 | git clone <url> | Clone a remote repository |
 | git status | Check status of working directory |
 | git add <file> | Stage changes for commit |
@@ -144,7 +145,11 @@
 | git pull | Fetch and merge from remote |
 | git push | Push local commits to remote |
 | git remote -v | List remote connections |
-| git config --global user.name/email | Set global Git username/email |
+| git restore  <file> | Restore a file to its last commited state |
+| git reset --soft HEAD~1 | Undo the last commit, keep changes staged |
+| git stash | Temporarily save uncommited changes |
+| git stash pop | Apply and remove the most recent stash |
+
 
 
 ## 🧹 Pre-commits

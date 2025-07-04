@@ -9,12 +9,17 @@
 - [📦 Package Management (APT)](#-package-management-apt)
 - [🐍 Python & pyenv](#-python--pyenv)
 - [🔐 SSH & Remote Access](#-ssh--remote-access)
+  - [Set up paswordless SSH} between 2 computers](#set-up-passwordless-ssh-between-2-pcs)
+  - [Set up SSH for GitHub](#set-up-ssh-for-github)
+  - [Set up multiple keys](#set-up-different-key-for-each-connection)
 - [📡 FTP & File Transfer](#-ftp--file-transfer)
 - [🧠 Shortcuts](#-shortcuts)
 - [🌿 Git Essentials](#-git-essentials)
+  - [Set up GitHub repos](#set-up-github-repos)
 - [🧹 Pre-commits](#-pre-commits)
 - [📝 NumPy Docstrings](#-numpy-docstrings)
 - [📄 Generating Documentation](#-generating-documentation)
+- [📽️ Reveal presentations](#️-reveal-presentations)
 
 
 ## 📁 File & Directory Management
@@ -94,6 +99,86 @@
 | scp file user@host:/remote/path | Copy file to remote server |
 | scp user@host:/remote/file ./local/ | Copy file from remote server |
 
+### Set up passwordless SSH between 2 PCs
+
+1. On local PC, generate new SSH key
+```bash
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+Press enter to accept defaults.
+
+If you are on Windows, your key is in C:/Users/User/.ssh
+
+3. Copy key to remote computer
+```bash
+ssh-copy-id username@host_name
+```
+It’ll prompt for PC2 password once. After that, you're in passwordlessly.
+
+4. SSH like usually
+```bash
+ssh username@host_name
+```
+It shouldn't ask you for a password.
+
+### Set up SSH for GitHub
+1. On local PC, generate new SSH key
+```bash
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+Press enter to accept defaults.
+
+If you are on Windows, your key is in `C:/Users/User/.ssh`
+
+2. Open the **public key** (`.pub`) and copy its contents
+3. Got to GitHub $\rightarrow$ Settings $\rightarrow$ SSH and GPG keys $\rightarrow$ Add new key
+4. Type a title (something to mark the specific computer) and paste in the key you copied
+
+All set, now git remote should allow you to connect to your GitHub repos.
+
+### Set up different key for each connection
+You can use the same SSH key for all your remote connections, but it is reccommended to set up different keys for each connection for security.
+
+1. Generate keys for each purpose, ie.
+```bash
+ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_github -C "your_email@example.com"
+ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_remote1 -C "remote1"
+ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_remote2 -C "remote2"
+```
+
+2. Add GitHub public key to GitHub ([instructions](#set-up-ssh-for-github))
+
+3. Add each remote key's `.pub` to the respective PC using `ssh-copy-id`
+```bash
+ssh-copy-id -i ~/.ssh/id_ed25519_remote1.pub username@remote1_ip
+ssh-copy-id -i ~/.ssh/id_ed25519_remote2.pub username@remote2_ip
+```
+
+4. Create (or edit) your `.ssh-config` file as follows:
+```bash
+# GitHub
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_ed25519_github
+  IdentitiesOnly yes
+
+# Remote 1
+Host remote1
+  HostName remote1_ip
+  User username
+  IdentityFile ~/.ssh/id_ed25519_remote1
+  IdentitiesOnly yes
+
+# Remote 2
+Host remote2
+  HostName remote2_ip
+  User username
+  IdentityFile ~/.ssh/id_ed25519_remote2
+  IdentitiesOnly yes
+```
+Now you can SSH all you want.
+
 ## 📡 FTP & File Transfer
 
 | Command | Description |
@@ -150,7 +235,34 @@
 | git stash | Temporarily save uncommited changes |
 | git stash pop | Apply and remove the most recent stash |
 
+### Set up GitHub repos
 
+There are 2 ways to set up a GitHub repo
+1. Create a repo on GitHub and clone it locally
+2. Create a repo locally and push it on GitHub
+
+#### Create a repo on GitHub and clone it locally
+1. Go to GitHub and create a repo. Name it and create a README.md. Oprionally select a
+template for the .gitignore, licence and description.
+2. Once the the repo is created, go to Code $\rightarrow$ SSH and copy the repo SSH link.
+3. On your local PC go to the folder you want to clone the repo in and open cmd/bash.
+4.`git clone link-you-copied`
+
+Your repo is cloned and ready for commits.
+
+### Create a repo locally and push to GitHub
+Let's assume you have already created a repo, even made some commits already and want to
+upload to GitHub.
+1. Go to GitHub and create a repo. Name it the same as your local repo and **do not**
+create a README.md (you already have one locally). You want your repo to be completely empty.
+2. Once the the repo is created, go to Code $\rightarrow$ SSH and copy the repo SSH link.
+3. Locally, on your cmd/bash do:
+```bash
+git remote add origin link-you-copied
+git branch -M main
+git push -u origin main
+```
+Your commits should be pushed to GitHub and your local repo is connected to the GitHub repo.
 
 ## 🧹 Pre-commits
 
@@ -185,9 +297,14 @@ repos:
 
 ### 🔄 Usage
 
+- Stage files you want to commit.
 - Run all hooks against all files: `pre-commit run --all-files`
 - Run hooks only on changed files: `pre-commit run`
 - Update pre-commit hooks: `pre-commit autoupdate`
+- If you run git commit with pre-commits and files are modified by hooks, commit will be
+aborted. You need to:
+    - Stage them again
+    - Commit them
 
 ### 🪝 Linters
 
@@ -367,3 +484,27 @@ Include something like:
 ```bash
 sphinx-build -b html docs/source docs/build
 ```
+
+
+# 📽️ Reveal presentations
+
+Get template from githug aramp
+
+Create local server with 
+npm slides.md
+
+
+| Command | Description |
+| ----- | ----- |
+| `---` | Create new slide to the right |
+| `--` | Create new slide downwards |
+
+
+To deploy changes online:
+
+- Push to GitHub
+- On the GitHub repo go to Settings $\rightarrow$ Pages
+- Source: `Deploy from a branch`
+- Branch: `main`
+- Folder: `/root`
+- Click Save
